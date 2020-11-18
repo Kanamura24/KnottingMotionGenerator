@@ -1,5 +1,5 @@
-set(comp_srcs ArmImageGenerator.cpp )
-set(standalone_srcs ArmImageGeneratorComp.cpp)
+set(comp_srcs KnottingMotionGenerator.cpp )
+set(standalone_srcs KnottingMotionGeneratorComp.cpp)
 
 
 find_package(OpenCV REQUIRED)
@@ -52,6 +52,7 @@ target_link_libraries(${PROJECT_NAME} ${OPENRTM_LIBRARIES} ${OpenCV_LIBS})
 add_executable(${PROJECT_NAME}Comp ${standalone_srcs}
   ${comp_srcs} ${comp_headers} ${ALL_IDL_SRCS})
 target_link_libraries(${PROJECT_NAME}Comp ${OPENRTM_LIBRARIES} ${OpenCV_LIBS})
+add_dependencies(${PROJECT_NAME}Comp ALL_IDL_TGT)
 
 install(TARGETS ${PROJECT_NAME} ${PROJECT_NAME}Comp
     EXPORT ${PROJECT_NAME}

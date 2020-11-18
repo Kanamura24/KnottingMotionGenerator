@@ -3,15 +3,15 @@ if(POLICY CMP0048)
   cmake_policy(SET CMP0048 OLD)
 endif()
 
-project(ArmImageGenerator)
+project(KnottingMotionGenerator)
 string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)
 include("${PROJECT_SOURCE_DIR}/cmake/utils.cmake")
-set(PROJECT_VERSION 1.0.0 CACHE STRING "ArmImageGenerator version")
+set(PROJECT_VERSION 1.0.0 CACHE STRING "KnottingMotionGenerator version")
 DISSECT_VERSION()
-set(PROJECT_DESCRIPTION "Arm Image Generator RT Component")
-set(PROJECT_VENDOR "ogata_lab")
-set(PROJECT_AUTHOR "ogata_lab")
-set(PROJECT_AUTHOR_SHORT "ogata_lab")
+set(PROJECT_DESCRIPTION "Knotting Motion Generator RT Component")
+set(PROJECT_VENDOR "kanamura")
+set(PROJECT_AUTHOR "kanamura")
+set(PROJECT_AUTHOR_SHORT "kanamura")
 
 # Add an "uninstall" target
 CONFIGURE_FILE ("${PROJECT_SOURCE_DIR}/cmake/uninstall_target.cmake.in"

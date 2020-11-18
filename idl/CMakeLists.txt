@@ -1,4 +1,4 @@
-set(idls ${CMAKE_CURRENT_SOURCE_DIR}/ManipulatorCommonInterface_Common.idl ${CMAKE_CURRENT_SOURCE_DIR}/ManipulatorCommonInterface_MiddleLevel.idl ${CMAKE_CURRENT_SOURCE_DIR}/Img.idl ${CMAKE_CURRENT_SOURCE_DIR}/ManipulatorCommonInterface_DataTypes.idl ${CMAKE_CURRENT_SOURCE_DIR}/BasicDataType.idl )
+set(idls ${CMAKE_CURRENT_SOURCE_DIR}/ManipulatorCommonInterface_Common.idl ${CMAKE_CURRENT_SOURCE_DIR}/ManipulatorCommonInterface_MiddleLevel.idl ${CMAKE_CURRENT_SOURCE_DIR}/Img.idl ${CMAKE_CURRENT_SOURCE_DIR}/ManipulatorCommonInterface_DataTypes.idl ${CMAKE_CURRENT_SOURCE_DIR}/BasicDataType.idl ${CMAKE_CURRENT_SOURCE_DIR}/LeftManipulatorCommonInterface_Common.idl ${CMAKE_CURRENT_SOURCE_DIR}/LeftManipulatorCommonInterface_MiddleLevel.idl ${CMAKE_CURRENT_SOURCE_DIR}/LeftManipulatorCommonInterface_DataTypes.idl)
 
 install(FILES ${idls} DESTINATION ${INC_INSTALL_DIR}/idl
     COMPONENT idl)

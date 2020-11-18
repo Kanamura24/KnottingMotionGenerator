@@ -1,6 +1,6 @@
 // -*- C++ -*-
 /*!
- * @file  ArmImageGenerator.h
+ * @file  KnottingMotionGenerator.h
  * @brief Arm Image Generator RT Component
  * @date  $Date$
  *
@@ -23,6 +23,8 @@
 // <rtc-template block="consumer_stub_h">
 #include "ManipulatorCommonInterface_CommonStub.h"
 #include "ManipulatorCommonInterface_MiddleLevelStub.h"
+#include "LeftManipulatorCommonInterface_CommonStub.h"
+#include "LeftManipulatorCommonInterface_MiddleLevelStub.h"
 #include "ImgStub.h"
 
 // </rtc-template>
@@ -43,11 +45,11 @@ using namespace RTC;
 #include <rtm/DataOutPort.h>
 
 /*!
- * @class ArmImageGenerator
+ * @class KnottingMotionGenerator
  * @brief Arm Image Generator RT Component
  *
  */
-class ArmImageGenerator
+class KnottingMotionGenerator
   : public RTC::DataFlowComponentBase
 {
  public:
@@ -55,12 +57,12 @@ class ArmImageGenerator
    * @brief constructor
    * @param manager Maneger Object
    */
-  ArmImageGenerator(RTC::Manager* manager);
+  KnottingMotionGenerator(RTC::Manager* manager);
 
   /*!
    * @brief destructor
    */
-  ~ArmImageGenerator();
+  ~KnottingMotionGenerator();
 
   // <rtc-template block="public_attribute">
   
@@ -299,10 +301,26 @@ class ArmImageGenerator
 
   // DataInPort declaration
   // <rtc-template block="inport_declare">
+
+  //photointerrupta
+  RTC::TimedFloatSeq m_in;
+  /*!
+   */
+  InPort<RTC::TimedFloatSeq> m_inIn;
+
+
+  //camera
   Img::TimedCameraImage m_camera;
   /*!
    */
   InPort<Img::TimedCameraImage> m_cameraIn;
+
+  //gripper open or close
+  RTC::TimedLongSeq m_gripperOC;
+  /*!
+   */
+  OutPort<RTC::TimedLongSeq> m_gripperOCOut;
+  
   
   // </rtc-template>
 
@@ -316,10 +334,16 @@ class ArmImageGenerator
   // <rtc-template block="corbaport_declare">
   /*!
    */
-  RTC::CorbaPort m_manipCommonPort;
+  RTC::CorbaPort m_manipCommon_LPort;
   /*!
    */
-  RTC::CorbaPort m_manipMiddlePort;
+  RTC::CorbaPort m_manipMiddle_LPort;
+  /*!
+   */
+  RTC::CorbaPort m_manipCommon_RPort;
+  /*!
+   */
+  RTC::CorbaPort m_manipMiddle_RPort;
   
   // </rtc-template>
 
@@ -332,11 +356,19 @@ class ArmImageGenerator
   // <rtc-template block="consumer_declare">
   /*!
    */
-  RTC::CorbaConsumer<JARA_ARM::ManipulatorCommonInterface_Common> m_manipCommon;
+  RTC::CorbaConsumer<JARA_ARM_LEFT::ManipulatorCommonInterface_Common> m_manipCommon_L;
   /*!
    */
-  RTC::CorbaConsumer<JARA_ARM::ManipulatorCommonInterface_Middle> m_manipMiddle;
-  
+  RTC::CorbaConsumer<JARA_ARM_LEFT::ManipulatorCommonInterface_Middle> m_manipMiddle_L;
+  /*!
+   */
+  RTC::CorbaConsumer<JARA_ARM::ManipulatorCommonInterface_Common> m_manipCommon_R;
+  /*!
+   */
+  RTC::CorbaConsumer<JARA_ARM::ManipulatorCommonInterface_Middle> m_manipMiddle_R;
+
+  bool State;
+  int count;
   // </rtc-template>
 
  private:
@@ -348,7 +380,8 @@ class ArmImageGenerator
   
   // </rtc-template>
 
-	 JARA_ARM::JointPos_var m_jointPos;
+         JARA_ARM::JointPos_var m_jointPos;
+         JARA_ARM_LEFT::JointPos_var m_LjointPos;
 	 int m_j0counter;
 	 int m_j1counter;
 
@@ -364,7 +397,7 @@ class ArmImageGenerator
 
 extern "C"
 {
-  DLL_EXPORT void ArmImageGeneratorInit(RTC::Manager* manager);
+  DLL_EXPORT void KnottingMotionGeneratorInit(RTC::Manager* manager);
 };
 
 #endif // ARMIMAGEGENERATOR_H

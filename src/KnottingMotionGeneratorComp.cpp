@@ -1,6 +1,6 @@
 // -*- C++ -*-
 /*!
- * @file ArmImageGeneratorComp.cpp
+ * @file KnottingMotionGeneratorComp.cpp
  * @brief Standalone component
  * @date $Date$
  *
@@ -11,16 +11,16 @@
 #include <iostream>
 #include <string>
 #include <stdlib.h>
-#include "ArmImageGenerator.h"
+#include "KnottingMotionGenerator.h"
 
 
 void MyModuleInit(RTC::Manager* manager)
 {
-  ArmImageGeneratorInit(manager);
+  KnottingMotionGeneratorInit(manager);
   RTC::RtcBase* comp;
 
   // Create a component
-  comp = manager->createComponent("ArmImageGenerator");
+  comp = manager->createComponent("KnottingMotionGenerator");
 
   if (comp==NULL)
   {

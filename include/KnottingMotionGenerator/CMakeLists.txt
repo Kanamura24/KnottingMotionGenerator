@@ -1,4 +1,4 @@
-set(hdrs ArmImageGenerator.h
+set(hdrs KnottingMotionGenerator.h
     PARENT_SCOPE
     )
 
