@@ -380,6 +380,7 @@ class KnottingMotionGenerator
   
   // </rtc-template>
 
+         JARA_ARM::CarPosWithElbow targetPos;
          JARA_ARM::JointPos_var m_jointPos;
          JARA_ARM_LEFT::JointPos_var m_LjointPos;
 	 int m_j0counter;

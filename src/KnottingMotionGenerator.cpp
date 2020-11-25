@@ -281,6 +281,12 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
    return ((double)rand()+1.0)/((double)RAND_MAX+2.0);
  }
 
+ void CarPosInit(targetPos){
+   targetPos.elbow = 0;
+   targetPos.carPos[0][0] = 1; targetPos.carPos[0][1] = 0; targetPos.carPos[0][2] = 0; targetPos.carPos[0][3] = 0;
+   targetPos.carPos[1][0] = 0; targetPos.carPos[1][1] = 1; targetPos.carPos[1][2] = 0; targetPos.carPos[1][3] = 0;
+   targetPos.carPos[2][0] = 0; targetPos.carPos[2][1] = 0; targetPos.carPos[2][2] = 1; targetPos.carPos[2][3] = 0;
+ }
 
  RTC::ReturnCode_t KnottingMotionGenerator::onExecute(RTC::UniqueId ec_id)
  {
@@ -289,7 +295,7 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
 
    // std::cout << "--------------------------------------------------" << std::endl;
 
-  JARA_ARM::CarPosWithElbow targetPos;
+   //JARA_ARM::CarPosWithElbow targetPos;
   
   JARA_ARM::CarPosWithElbow_var pos = new JARA_ARM::CarPosWithElbow();
 
