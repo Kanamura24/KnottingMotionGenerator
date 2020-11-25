@@ -369,6 +369,7 @@ class KnottingMotionGenerator
 
   bool State;
   int count;
+  float Choucho;
   // </rtc-template>
 
  private:

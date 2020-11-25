@@ -281,7 +281,7 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
    return ((double)rand()+1.0)/((double)RAND_MAX+2.0);
  }
 
- void CarPosInit(targetPos){
+ void CarPosInit(JARA_ARM::CarPosWithElbow targetPos){
    targetPos.elbow = 0;
    targetPos.carPos[0][0] = 1; targetPos.carPos[0][1] = 0; targetPos.carPos[0][2] = 0; targetPos.carPos[0][3] = 0;
    targetPos.carPos[1][0] = 0; targetPos.carPos[1][1] = 1; targetPos.carPos[1][2] = 0; targetPos.carPos[1][3] = 0;
@@ -298,6 +298,7 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
    //JARA_ARM::CarPosWithElbow targetPos;
   
   JARA_ARM::CarPosWithElbow_var pos = new JARA_ARM::CarPosWithElbow();
+  JARA_ARM::JointPos_var jpos = new JARA_ARM::JointPos();
 
 
   m_gripperOC.data.length(2);
@@ -316,6 +317,15 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
  	m_jointPos[5] = M_PI/1.76;
 
   m_manipMiddle_R->movePTPJointAbs(m_jointPos);
+
+  m_manipCommon_R->getFeedbackPosJoint(jpos);
+  std::cout << jpos[0] << ", "
+	    << jpos[1] << ", "
+	    << jpos[2] << ", "
+	    << jpos[3] << ", "
+	    << jpos[4] << ", "
+	    << jpos[5] << ", "
+	    << std::endl;
   
   coil::sleep(5.0);
 
@@ -383,16 +393,17 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
   	m_jointPos[4] = -M_PI/0.80;
   	m_jointPos[5] = M_PI/1.81;
 
-
+  m_manipMiddle_R->movePTPJointAbs(m_jointPos);  
+  coil::sleep(3.0);
+  
   // JARA_ARM::CarPosWithElbow targetPos;
   targetPos.elbow = 0;
   targetPos.carPos[0][0] = 1; targetPos.carPos[0][1] = 0; targetPos.carPos[0][2] = 0; targetPos.carPos[0][3] = 0;
   targetPos.carPos[1][0] = 0; targetPos.carPos[1][1] = 1; targetPos.carPos[1][2] = 0; targetPos.carPos[1][3] = 0;
   targetPos.carPos[2][0] = 0; targetPos.carPos[2][1] = 0; targetPos.carPos[2][2] = 1; targetPos.carPos[2][3] = 0;
-	
-  m_manipMiddle_R->movePTPJointAbs(m_jointPos);  
-  coil::sleep(3.0);
 
+
+  //CarPosInit(targetPos);
   std::cout << "move backward" << std::endl;
         targetPos.carPos[0][3] = -0.015;
         targetPos.carPos[2][3] = +0.015;
@@ -400,7 +411,9 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
   m_manipMiddle_R->movePTPCartesianRel(targetPos);
   coil::sleep(2.0);
 
+
   count = 0;
+  Choucho = 0;
   
   while(State==true){
     std::cout << "loop loop loop."<< std::endl;
@@ -420,6 +433,7 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
       sum += m_in.data[3]*100;
       if(sum <= 960.0){
   	std::cout << "Under 960.0, Move ur5e: "<< sum << std::endl;
+	Choucho = sum;
   	State = false;
   	break;
       }else{
@@ -435,12 +449,11 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
   	count++;
   	coil::sleep(2.0);
       }
-      //coil::sleep(2.0);
     }
-    //coil::sleep(1.0);
   }
 
   coil::sleep(2.0);
+  //CarPosInit(targetPos);
   targetPos.elbow = 0;
   targetPos.carPos[0][0] = 1; targetPos.carPos[0][1] = 0; targetPos.carPos[0][2] = 0; targetPos.carPos[0][3] = 0;
   targetPos.carPos[1][0] = 0; targetPos.carPos[1][1] = 1; targetPos.carPos[1][2] = 0; targetPos.carPos[1][3] = 0;
@@ -450,17 +463,36 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
 
   m_manipMiddle_R->movePTPCartesianRel(targetPos);
   coil::sleep(2.0);
-  
+
+  //CarPosInit(targetPos);
   targetPos.elbow = 0;
   targetPos.carPos[0][0] = 1; targetPos.carPos[0][1] = 0; targetPos.carPos[0][2] = 0; targetPos.carPos[0][3] = 0;
   targetPos.carPos[1][0] = 0; targetPos.carPos[1][1] = 1; targetPos.carPos[1][2] = 0; targetPos.carPos[1][3] = 0;
   targetPos.carPos[2][0] = 0; targetPos.carPos[2][1] = 0; targetPos.carPos[2][2] = 1; targetPos.carPos[2][3] = 0;
-  std::cout << "move forward" << std::endl;
-  	targetPos.carPos[0][3] = +0.01;
-	targetPos.carPos[2][3] = -0.01;
+  if(960 > Choucho && Choucho > 940){
+    std::cout << "Large move forward" << std::endl;
+    targetPos.carPos[0][3] = +0.02;
+    targetPos.carPos[2][3] = -0.02;
 
+  }else{
+    std::cout << "Small move forward" << std::endl;
+    targetPos.carPos[0][3] = +0.01;
+    targetPos.carPos[2][3] = -0.01;
+  }
   m_manipMiddle_R->movePTPCartesianRel(targetPos);
   coil::sleep(2.0);
+
+
+  std::cout << "test" << std::endl;
+  m_manipCommon_R->getFeedbackPosJoint(jpos);
+  std::cout << jpos[0] << ", "
+	    << jpos[1] << ", "
+	    << jpos[2] << ", "
+	    << jpos[3] << ", "
+	    << jpos[4] << ", "
+	    << jpos[5] << ", "
+	    << std::endl;
+    
   
   std::cout << "[KnottingMotionGenerator] migi_3" << std::endl;
         m_jointPos[0] = -M_PI/2.19;
@@ -469,6 +501,7 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
   	m_jointPos[3] = M_PI/11.46;
   	m_jointPos[4] = -M_PI/0.80;
   	m_jointPos[5] = M_PI/1.42;
+
 	
   m_manipMiddle_R->movePTPJointAbs(m_jointPos);  
   coil::sleep(3.0);
