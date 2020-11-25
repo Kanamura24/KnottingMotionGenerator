@@ -405,7 +405,7 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
  	m_LjointPos[2] = M_PI/1.35;
  	m_LjointPos[3] = -M_PI/1.12;
  	m_LjointPos[4] = -M_PI/1.29;
- 	m_LjointPos[5] = -M_PI/1.05;
+ 	m_LjointPos[5] = -M_PI/1.02;
 	
   m_manipMiddle_L->movePTPJointAbs(m_LjointPos);  
   coil::sleep(3.0);
@@ -461,7 +461,8 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
   coil::sleep(3.0);
 
   std::cout << "move backward" << std::endl;
-        targetPos.carPos[0][3] = -0.024;
+        targetPos.carPos[0][3] = -0.015;
+        targetPos.carPos[2][3] = +0.015;
 
   m_manipMiddle_R->movePTPCartesianRel(targetPos);
   coil::sleep(2.0);
@@ -473,10 +474,14 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
     if(m_inIn.isNew()) {
       float sum = 0;
       m_inIn.read();
-      for(int i = 0;i < m_in.data.length();i++) {
-  	sum += m_in.data[i];
-      }
-      if(sum <= 26.0){
+      // for(int i = 0;i < m_in.data.length();i++) {
+      // 	sum += m_in.data[i];
+      // }
+      // if(sum <= 26.0){
+
+      sum += m_in.data[0]*100;
+      sum += m_in.data[3]*100;
+      if(sum <= 940.0){
   	std::cout << "Under 29.0, Move ur5e."<< std::endl;
   	State = false;
   	break;
@@ -485,7 +490,8 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
   	std::cout << "Test: move right" << std::endl;
   	targetPos.carPos[1][3] = -0.003;
   	if(count%3==0){
-  	  targetPos.carPos[0][3] = -0.002;
+  	  targetPos.carPos[0][3] = -0.0015;
+	  targetPos.carPos[2][3] = +0.0015;
   	  std::cout << "back" << std::endl; 
   	}
   	m_manipMiddle_R->movePTPCartesianRel(targetPos);
@@ -505,7 +511,8 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
   coil::sleep(2.0);
 
   std::cout << "move forward" << std::endl;
-  	targetPos.carPos[0][3] = +0.015;
+  	targetPos.carPos[0][3] = +0.01;
+	targetPos.carPos[2][3] = -0.01;
 
   m_manipMiddle_R->movePTPCartesianRel(targetPos);
   coil::sleep(2.0);
