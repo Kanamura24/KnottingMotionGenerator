@@ -252,47 +252,10 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
  	coil::sleep(tv);
 
 
- 	m_j0counter = m_j1counter = 0;
-
  	m_sleepTime = coil::TimeValue(m_wait_interval);
  	std::cout << "[KnottingMotionGenerator] Wait " << m_sleepTime.sec() << "[sec], " << m_sleepTime.usec() << "[usec]" << std::endl;
 	
  	std::cout << "[KnottingMotionGenerator] Ready." << std::endl;
-
- 	time_t now = std::time(NULL);
- 	struct tm* localNow = std::localtime(&now);
- 	std::ostringstream ss;
- 	ss << "log"
- 		<< 1900 + localNow->tm_year
- 		<< std::setw(2) << std::setfill('0') << localNow->tm_mon + 1
- 		<< std::setw(2) << std::setfill('0') << localNow->tm_mday
- 		<< std::setw(2) << std::setfill('0') << localNow->tm_hour
- 		<< std::setw(2) << std::setfill('0') << localNow->tm_min
- 		<< std::setw(2) << std::setfill('0') << localNow->tm_sec;
-
- 	m_logDir = ss.str();
- #ifdef WIN32
- 	_mkdir(m_logDir.c_str());
- #else
- 	mkdir(m_logDir.c_str(), 0777);
- #endif
-
- 	/*
- 	std::ofstream configFile;
- 	configFile.open(m_logDir + "/config.yaml", std::ofstream::out);
- 	configFile << "j0min: " << m_j0min << std::endl;
- 	configFile << "j1min: " << m_j1min << std::endl;
- 	configFile << "j0max: " << m_j0max << std::endl;
- 	configFile << "j1max: " << m_j1max << std::endl;
- 	configFile << "j0step: " << m_j0step << std::endl;
- 	configFile << "j1step: " << m_j1step << std::endl;
- 	configFile << "wait_interval: " << m_wait_interval << std::endl;
- 	configFile.close();
- 	*/
-     std::string filename = m_logDir + "/joints.csv";
- 	m_JointLog.open(filename.c_str(), std::ios::out);//, std::ofstream::out);
-
- 	m_JointLog << "x, y, theta, ImageFilename" << std::endl;
 
 	State=true;
 
@@ -304,17 +267,7 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
 
  RTC::ReturnCode_t KnottingMotionGenerator::onDeactivated(RTC::UniqueId ec_id)
  {
-   //m_jointPos->length(6);
- 	//m_jointPos[0] = 0;
- 	//m_jointPos[1] = -M_PI/2;
- 	//m_jointPos[2] = -M_PI/2;
- 	//m_jointPos[3] = -M_PI/2;
- 	//m_jointPos[4] = M_PI/2;
- 	//m_jointPos[5] = 0;
-	
- 	//m_manipMiddle_L->movePTPJointAbs(m_jointPos);
-  
- 	m_JointLog.close();
+
 
  	coil::TimeValue tv(3.0);
  	coil::sleep(tv);
@@ -337,18 +290,9 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
    // std::cout << "--------------------------------------------------" << std::endl;
 
   JARA_ARM::CarPosWithElbow targetPos;
-  // targetPos.elbow = 0;
-  // targetPos.carPos[0][0] = 1; targetPos.carPos[0][1] = 0; targetPos.carPos[0][2] = 0; targetPos.carPos[0][3] = 0;
-  // targetPos.carPos[1][0] = 0; targetPos.carPos[1][1] = 1; targetPos.carPos[1][2] = 0; targetPos.carPos[1][3] = 0;
-  // targetPos.carPos[2][0] = 0; targetPos.carPos[2][1] = 0; targetPos.carPos[2][2] = 1; targetPos.carPos[2][3] = 0;
   
   JARA_ARM::CarPosWithElbow_var pos = new JARA_ARM::CarPosWithElbow();
 
-  // std::cout << "Test: move right" << std::endl;
-  // targetPos.carPos[1][3] = -0.01;
-  // m_manipMiddle_R->movePTPCartesianRel(targetPos);
-
-  // std::cout << "--------------------------------------------------" << std::endl;
 
   m_gripperOC.data.length(2);
   m_gripperOC.data[0]=0;
@@ -381,23 +325,6 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
   m_manipMiddle_L->movePTPJointAbs(m_LjointPos);  
   coil::sleep(5.0);
 
-  std::cout << "getFeedbackPosCartesian" << std::endl;
-  m_manipMiddle_R->getFeedbackPosCartesian(pos);
-  m_JointLog << pos->carPos[0][0] << ", "
-  	     << pos->carPos[0][1] << ", "
-  	     << pos->carPos[0][2] << ", "
-  	     << pos->carPos[0][3] << ", "
-  	     << pos->carPos[1][0] << ", "
-  	     << pos->carPos[1][1] << ", "
-  	     << pos->carPos[1][2] << ", "
-  	     << pos->carPos[1][3] << ", "
-  	     << pos->carPos[2][0] << ", "
-  	     << pos->carPos[2][1] << ", "
-  	     << pos->carPos[2][2] << ", "
-  	     << pos->carPos[2][3] << ", "
-  	     << std::endl;
-  
-  coil::sleep(m_sleepTime);
 
   std::cout << "[KnottingMotionGenerator] hidari_1" << std::endl;
   	m_LjointPos[0] = M_PI/2.07;
@@ -471,6 +398,10 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
   
   while(State==true){
     std::cout << "loop loop loop."<< std::endl;
+    targetPos.elbow = 0;
+    targetPos.carPos[0][0] = 1; targetPos.carPos[0][1] = 0; targetPos.carPos[0][2] = 0; targetPos.carPos[0][3] = 0;
+    targetPos.carPos[1][0] = 0; targetPos.carPos[1][1] = 1; targetPos.carPos[1][2] = 0; targetPos.carPos[1][3] = 0;
+    targetPos.carPos[2][0] = 0; targetPos.carPos[2][1] = 0; targetPos.carPos[2][2] = 1; targetPos.carPos[2][3] = 0;
     if(m_inIn.isNew()) {
       float sum = 0;
       m_inIn.read();
@@ -481,8 +412,8 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
 
       sum += m_in.data[0]*100;
       sum += m_in.data[3]*100;
-      if(sum <= 940.0){
-  	std::cout << "Under 29.0, Move ur5e."<< std::endl;
+      if(sum <= 960.0){
+  	std::cout << "Under 960.0, Move ur5e: "<< sum << std::endl;
   	State = false;
   	break;
       }else{
@@ -504,12 +435,20 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
   }
 
   coil::sleep(2.0);
+  targetPos.elbow = 0;
+  targetPos.carPos[0][0] = 1; targetPos.carPos[0][1] = 0; targetPos.carPos[0][2] = 0; targetPos.carPos[0][3] = 0;
+  targetPos.carPos[1][0] = 0; targetPos.carPos[1][1] = 1; targetPos.carPos[1][2] = 0; targetPos.carPos[1][3] = 0;
+  targetPos.carPos[2][0] = 0; targetPos.carPos[2][1] = 0; targetPos.carPos[2][2] = 1; targetPos.carPos[2][3] = 0;
   std::cout << "move left." << std::endl;
         targetPos.carPos[1][3] = +0.05;
 
   m_manipMiddle_R->movePTPCartesianRel(targetPos);
   coil::sleep(2.0);
-
+  
+  targetPos.elbow = 0;
+  targetPos.carPos[0][0] = 1; targetPos.carPos[0][1] = 0; targetPos.carPos[0][2] = 0; targetPos.carPos[0][3] = 0;
+  targetPos.carPos[1][0] = 0; targetPos.carPos[1][1] = 1; targetPos.carPos[1][2] = 0; targetPos.carPos[1][3] = 0;
+  targetPos.carPos[2][0] = 0; targetPos.carPos[2][1] = 0; targetPos.carPos[2][2] = 1; targetPos.carPos[2][3] = 0;
   std::cout << "move forward" << std::endl;
   	targetPos.carPos[0][3] = +0.01;
 	targetPos.carPos[2][3] = -0.01;
