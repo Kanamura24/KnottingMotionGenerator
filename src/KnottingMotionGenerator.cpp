@@ -351,7 +351,7 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
  	m_LjointPos[5] = -M_PI/1.02;
 	
   m_manipMiddle_L->movePTPJointAbs(m_LjointPos);  
-  coil::sleep(3.0);
+  coil::sleep(0.5);
 
   std::cout << "[KnottingMotionGenerator] migi_1" << std::endl;
   	m_jointPos[0] = -M_PI/2.46;
@@ -363,7 +363,7 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
 	
   m_manipMiddle_R->movePTPJointAbs(m_jointPos); 
   
-  coil::sleep(3.0);
+  coil::sleep(0.5);
 
   std::cout << "[KnottingMotionGenerator] hidari_2" << std::endl;
   	m_LjointPos[0] = M_PI/2.32;
@@ -374,16 +374,16 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
  	m_LjointPos[5] = -M_PI/0.97;
 	
   m_manipMiddle_L->movePTPJointAbs(m_LjointPos);  
-  coil::sleep(3.0);
+  coil::sleep(1.0);
 
   std::cout << "[KnottingMotionGenerator] Gripper Closed." << std::endl;
   m_manipMiddle_L->closeGripper();
 
   m_gripperOC.data[1]=1;
   m_gripperOCOut.write();
-  coil::sleep(m_sleepTime);
+  coil::sleep(1.0);
 
-  coil::sleep(3.0);
+  //coil::sleep(3.0);
   
   std::cout << "[KnottingMotionGenerator] migi_2" << std::endl;
   	m_jointPos[0] = -M_PI/2.21;
@@ -394,7 +394,7 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
   	m_jointPos[5] = M_PI/1.81;
 
   m_manipMiddle_R->movePTPJointAbs(m_jointPos);  
-  coil::sleep(3.0);
+  coil::sleep(0.5);
   
   // JARA_ARM::CarPosWithElbow targetPos;
   targetPos.elbow = 0;
@@ -509,7 +509,7 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
 
 	
   m_manipMiddle_R->movePTPJointAbs(m_jointPos);  
-  coil::sleep(3.0);
+  coil::sleep(0.5);
   
 
   std::cout << "[KnottingMotionGenerator] Gripper Closed." << std::endl;
@@ -517,10 +517,8 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
 
   m_gripperOC.data[0]=1;
   m_gripperOCOut.write();
-  coil::sleep(m_sleepTime);
-  
-
-  coil::sleep(3.0);
+  //coil::sleep(m_sleepTime);
+  coil::sleep(1.0);
   
   std::cout << "[KnottingMotionGenerator] migi_4" << std::endl;
   	m_jointPos[0] = -M_PI/1.93;
@@ -531,7 +529,7 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
   	m_jointPos[5] = M_PI/1.56;
 	
   m_manipMiddle_R->movePTPJointAbs(m_jointPos);  
-  coil::sleep(3.0);
+  coil::sleep(0.5);
 
   std::cout << "[KnottingMotionGenerator] hidari_3" << std::endl;
   	m_LjointPos[0] = M_PI/2.17;
@@ -542,7 +540,7 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
   	m_LjointPos[5] = -M_PI/0.76;
 	
   m_manipMiddle_L->movePTPJointAbs(m_LjointPos);  
-  coil::sleep(3.0);
+  coil::sleep(1.0);
 
   std::cout << "[KnottingMotionGenerator] hidari_4" << std::endl;
   	m_LjointPos[0] = M_PI/2.12;
@@ -553,7 +551,7 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
   	m_LjointPos[5] = -M_PI/0.71;
 	
   m_manipMiddle_L->movePTPJointAbs(m_LjointPos);  
-  coil::sleep(3.0);
+  coil::sleep(0.5);
 
   // std::cout << "[KnottingMotionGenerator] migi_5" << std::endl;
   // 	m_jointPos[0] = -M_PI/2.19;
@@ -575,7 +573,7 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
   	m_jointPos[5] = M_PI/1.35;
 	
   m_manipMiddle_R->movePTPJointAbs(m_jointPos);  
-  coil::sleep(3.0);
+  coil::sleep(0.5);
 
   std::cout << "[KnottingMotionGenerator] hidari_5" << std::endl;
   	m_LjointPos[0] = M_PI/2.21;
@@ -586,7 +584,7 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
   	m_LjointPos[5] = -M_PI/0.62;
 	
   m_manipMiddle_L->movePTPJointAbs(m_LjointPos);  
-  coil::sleep(3.0);
+  coil::sleep(0.5);
 
   std::cout << "[KnottingMotionGenerator] migi_7" << std::endl;
   	m_jointPos[0] = -M_PI/2.11;
@@ -597,7 +595,7 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
   	m_jointPos[5] = M_PI/1.44;
 	
   m_manipMiddle_R->movePTPJointAbs(m_jointPos);  
-  coil::sleep(3.0);
+  coil::sleep(0.5);
 
    std::cout << "[KnottingMotionGenerator] hidari_6" << std::endl;
   	m_LjointPos[0] = M_PI/2.04;
@@ -608,7 +606,7 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
   	m_LjointPos[5] = -M_PI/0.63;
 	
   m_manipMiddle_L->movePTPJointAbs(m_LjointPos);  
-  coil::sleep(3.0);
+  coil::sleep(0.5);
 
 
   std::cout << "[KnottingMotionGenerator] Last move migi" << std::endl;
@@ -621,7 +619,7 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
   	m_jointPos[5] = M_PI/1.79;
 
   m_manipMiddle_R->movePTPJointAbs(m_jointPos);  
-  coil::sleep(3.0);
+  coil::sleep(0.5);
 
   std::cout << "[KnottingMotionGenerator] Last move hidari" << std::endl;
 
@@ -633,21 +631,21 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
   	m_LjointPos[5] = -M_PI/0.70;
 
   m_manipMiddle_L->movePTPJointAbs(m_LjointPos);  
-  coil::sleep(3.0);
+  coil::sleep(0.5);
   
   std::cout << "[KnottingMotionGenerator] Gripper Opened." << std::endl;
   m_manipMiddle_R->openGripper();
 
   m_gripperOC.data[0]=0;
   m_gripperOCOut.write();
-  coil::sleep(m_sleepTime);
+  coil::sleep(0.5);
 
   std::cout << "[KnottingMotionGenerator] Gripper Opened." << std::endl;
   m_manipMiddle_L->openGripper();
 
   m_gripperOC.data[1]=0;
   m_gripperOCOut.write();
-  coil::sleep(m_sleepTime);
+  coil::sleep(0.5);
 
   std::cout << "[KnottingMotionGenerator] Ready migi" << std::endl;
 
@@ -659,7 +657,7 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
   	m_jointPos[5] = M_PI/1.76;
 
   m_manipMiddle_R->movePTPJointAbs(m_jointPos);  
-  coil::sleep(5.0);
+  coil::sleep(0.5);
 
   std::cout << "[KnottingMotionGenerator] Ready hidari" << std::endl;
 
