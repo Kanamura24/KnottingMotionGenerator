@@ -405,11 +405,11 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
 
   //CarPosInit(targetPos);
   std::cout << "move backward" << std::endl;
-        targetPos.carPos[0][3] = -0.015;
-        targetPos.carPos[2][3] = +0.015;
+        targetPos.carPos[0][3] = -0.025;
+        targetPos.carPos[2][3] = +0.025;
 
   m_manipMiddle_R->movePTPCartesianRel(targetPos);
-  coil::sleep(2.0);
+  coil::sleep(3.0);
 
 
   count = 0;
@@ -462,7 +462,7 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
         targetPos.carPos[1][3] = +0.05;
 
   m_manipMiddle_R->movePTPCartesianRel(targetPos);
-  coil::sleep(2.0);
+  coil::sleep(3.0);
 
   //CarPosInit(targetPos);
   targetPos.elbow = 0;
@@ -471,13 +471,13 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
   targetPos.carPos[2][0] = 0; targetPos.carPos[2][1] = 0; targetPos.carPos[2][2] = 1; targetPos.carPos[2][3] = 0;
   if(960 > Choucho && Choucho > 940){
     std::cout << "Large move forward" << std::endl;
-    targetPos.carPos[0][3] = +0.02;
-    targetPos.carPos[2][3] = -0.02;
+    targetPos.carPos[0][3] = +0.020;
+    targetPos.carPos[2][3] = -0.020;
 
   }else{
     std::cout << "Small move forward" << std::endl;
-    targetPos.carPos[0][3] = +0.01;
-    targetPos.carPos[2][3] = -0.01;
+    targetPos.carPos[0][3] = +0.015;
+    targetPos.carPos[2][3] = -0.015;
   }
   m_manipMiddle_R->movePTPCartesianRel(targetPos);
   coil::sleep(2.0);
@@ -485,21 +485,26 @@ RTC::ReturnCode_t KnottingMotionGenerator::onActivated(RTC::UniqueId ec_id)
 
   std::cout << "test" << std::endl;
   m_manipCommon_R->getFeedbackPosJoint(jpos);
-  std::cout << jpos[0] << ", "
-	    << jpos[1] << ", "
-	    << jpos[2] << ", "
-	    << jpos[3] << ", "
-	    << jpos[4] << ", "
-	    << jpos[5] << ", "
-	    << std::endl;
+  //std::cout << jpos[0] << ", "
+  //	    << jpos[1] << ", "
+  //	    << jpos[2] << ", "
+  //	    << jpos[3] << ", "
+  //	    << jpos[4] << ", "
+  //	    << jpos[5] << ", "
+  //	    << std::endl;
     
   
   std::cout << "[KnottingMotionGenerator] migi_3" << std::endl;
-        m_jointPos[0] = -M_PI/2.19;
-  	m_jointPos[1] = -M_PI/1.26;
-  	m_jointPos[2] = -M_PI/1.34;
-  	m_jointPos[3] = M_PI/11.46;
-  	m_jointPos[4] = -M_PI/0.80;
+  //    m_jointPos[0] = -M_PI/2.19;
+  // 	m_jointPos[1] = -M_PI/1.26;
+  // 	m_jointPos[2] = -M_PI/1.34;
+  //  	m_jointPos[3] = M_PI/11.46;
+  //  	m_jointPos[4] = -M_PI/0.80;
+        m_jointPos[0] = jpos[0];
+        m_jointPos[1] = jpos[1];
+	m_jointPos[2] = jpos[2];
+	m_jointPos[3] = jpos[3];
+	m_jointPos[4] = jpos[4];
   	m_jointPos[5] = M_PI/1.42;
 
 	
